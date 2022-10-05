@@ -17,6 +17,7 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
+app.use('/uploads', express.static('uploads'));
 
 // routes
 const userRoutes = require('./routes/user.routes');
