@@ -11,7 +11,29 @@ const createSector = async (body) => {
   return rows[0];
 };
 
+// get all sectors
+const getAllSectors = async () => {
+  const { rows } = await db.query('SELECT * FROM sectors');
+
+  return rows;
+};
+
+// delete sector
+const deleteSector = async (id) => {
+  // check if sector id exists
+  const { rows } = await db.query('SELECT * FROM sectors WHERE id = $1', [id]);
+  if (!rows[0]) {
+    throw new Error(`Sector not found`);
+  }
+
+  const record = await db.query('DELETE FROM sectors WHERE id = $1 RETURNING *', [id]);
+
+  return record.rows[0];
+};
+
 // export module
 module.exports = {
   createSector,
+  getAllSectors,
+  deleteSector,
 };
