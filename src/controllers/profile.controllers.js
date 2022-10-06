@@ -11,7 +11,20 @@ const createProfile = async (req, res) => {
   }
 }
 
+// update profile
+const updateProfile = async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  try {
+    const profile = await profileServices.updateProfile(id, body);
+    res.status(200).send(profile);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+}
+
 // export module
 module.exports = {
-  createProfile
+  createProfile,
+  updateProfile
 };
