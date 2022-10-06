@@ -32,9 +32,22 @@ const deleteSector = async (req, res) => {
   }
 }
 
+// edit sector
+const editSector = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = {name: req.body.name, image: req.file.filename};
+    const sector = await sectorServices.editSector(id, body);
+    return res.status(200).json({ sector });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 // export module
 module.exports = {
   createSector,
   getAllSectors,
   deleteSector,
+  editSector,
 };

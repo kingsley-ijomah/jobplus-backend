@@ -31,9 +31,30 @@ const deleteSector = async (id) => {
   return record.rows[0];
 };
 
+// edit sector
+const editSector = async (id, body) => {
+  // check if sector id exists
+  const { rows } = await db.query('SELECT * FROM sectors WHERE id = $1', [id]);
+  if (!rows[0]) {
+    throw new Error(`Sector not found`);
+  }
+
+  // edit sector
+  const { name, image } = body;
+  const { rows: record } = await db.query(
+    'UPDATE sectors SET name = $1, image = $2 WHERE id = $3 RETURNING *',
+    [name, image, id]
+  );
+
+  return record[0];
+};
+
+
+
 // export module
 module.exports = {
   createSector,
   getAllSectors,
   deleteSector,
+  editSector,
 };
