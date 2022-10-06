@@ -23,9 +23,11 @@ app.use('/uploads', express.static('uploads'));
 const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
 const sectorRoutes = require('./routes/sector.routes');
+const profileRoutes = require('./routes/profile.routes');
 
 app.use('/api/', userRoutes);
 app.use('/api/', authRoutes);
 app.use('/api/', sectorRoutes);
+app.use('/api/', profileRoutes);
 
 module.exports = app;
