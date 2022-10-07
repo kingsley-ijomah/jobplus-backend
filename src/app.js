@@ -24,10 +24,12 @@ const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
 const sectorRoutes = require('./routes/sector.routes');
 const profileRoutes = require('./routes/profile.routes');
+const categoryRoutes = require('./routes/category.routes');
 
 app.use('/api/', userRoutes);
 app.use('/api/', authRoutes);
 app.use('/api/', sectorRoutes);
 app.use('/api/', profileRoutes);
+app.use('/api/', categoryRoutes);
 
 module.exports = app;
