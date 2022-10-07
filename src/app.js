@@ -25,11 +25,13 @@ const authRoutes = require('./routes/auth.routes');
 const sectorRoutes = require('./routes/sector.routes');
 const profileRoutes = require('./routes/profile.routes');
 const categoryRoutes = require('./routes/category.routes');
+const companyRoutes = require('./routes/company.routes');
 
 app.use('/api/', userRoutes);
 app.use('/api/', authRoutes);
 app.use('/api/', sectorRoutes);
 app.use('/api/', profileRoutes);
 app.use('/api/', categoryRoutes);
+app.use('/api/', companyRoutes);
 
 module.exports = app;
