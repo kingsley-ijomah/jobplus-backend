@@ -38,7 +38,30 @@ const getUserJobsByUserAndType = async (body) => {
   const { user_id, type } = body;
 
   const { rows } = await db.query(
-    'SELECT * FROM user_jobs WHERE user_id = $1 AND type = $2',
+    `
+    SELECT
+      jobs.*,
+      json_agg(companies.*) AS company,
+      json_agg(sectors.*) AS sector,
+      json_agg(skills.*) AS skills,
+      json_agg(application.*) AS application,
+      json_agg(saved.*) AS saved,
+      json_agg(notification.*) AS notification
+    FROM jobs
+      LEFT JOIN companies ON jobs.company_id = companies.id
+      LEFT JOIN sectors ON jobs.sector_id = sectors.id
+      LEFT JOIN job_skills ON jobs.id = job_skills.job_id
+      LEFT JOIN skills ON job_skills.skill_id = skills.id
+      LEFT JOIN user_jobs AS application ON jobs.id = application.job_id AND application.user_id = $1 AND application.type = 'Application'
+      LEFT JOIN user_jobs AS saved ON jobs.id = saved.job_id AND saved.user_id = $1 AND saved.type = 'Saved'
+      LEFT JOIN user_jobs AS notification ON jobs.id = notification.job_id AND notification.user_id = $1 AND notification.type = 'Notification'
+    WHERE jobs.id IN (
+      SELECT job_id
+      FROM user_jobs
+      WHERE user_id = $1 AND type = $2
+    )
+    GROUP BY jobs.id
+    `,
     [user_id, type]
   );
 
