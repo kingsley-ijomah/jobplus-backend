@@ -29,6 +29,7 @@ const companyRoutes = require('./routes/company.routes');
 const jobRoutes = require('./routes/job.routes');
 const skillRoutes = require('./routes/skill.routes');
 const jobSkillRoutes = require('./routes/job_skill.routes');
+const userJobRoutes = require('./routes/user_job.routes');
 
 app.use('/api/', userRoutes);
 app.use('/api/', authRoutes);
@@ -39,5 +40,6 @@ app.use('/api/', companyRoutes);
 app.use('/api/', jobRoutes);
 app.use('/api/', skillRoutes);
 app.use('/api/', jobSkillRoutes);
+app.use('/api/', userJobRoutes);
 
 module.exports = app;
