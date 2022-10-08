@@ -32,9 +32,21 @@ const deleteUserJobsByUserAndType = async (req, res) => {
   }
 }
 
+// get all user jobs for a user_id and type
+const getUserJobsByUserAndType = async (req, res) => {
+  const body  = {...req.body, user_id: req.user.id};
+  try {
+    const userJobs = await userJobServices.getUserJobsByUserAndType(body);
+    res.status(200).send(userJobs);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+}
+
 // return all functions
 module.exports = {
   createUserJob,
   deleteUserJob,
-  deleteUserJobsByUserAndType
+  deleteUserJobsByUserAndType,
+  getUserJobsByUserAndType
 }

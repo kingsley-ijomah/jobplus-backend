@@ -33,9 +33,22 @@ const deleteUserJobsByUserAndType = async (body) => {
   return rows;
 }
 
+// get all user jobs for a user_id and type
+const getUserJobsByUserAndType = async (body) => {
+  const { user_id, type } = body;
+
+  const { rows } = await db.query(
+    'SELECT * FROM user_jobs WHERE user_id = $1 AND type = $2',
+    [user_id, type]
+  );
+
+  return rows;
+}
+
 // return all functions
 module.exports = {
   createUserJob,
   deleteUserJob,
-  deleteUserJobsByUserAndType
+  deleteUserJobsByUserAndType,
+  getUserJobsByUserAndType
 }
