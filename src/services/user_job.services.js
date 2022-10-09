@@ -34,8 +34,10 @@ const deleteUserJobsByUserAndType = async (body) => {
 }
 
 // get all user jobs for a user_id and type
-const getUserJobsByUserAndType = async (body) => {
-  const { user_id, type } = body;
+const getUserJobsByUserAndType = async (params) => {
+  const { user_id, type, limit=10, page=1 } = params;
+
+  const offset = (page - 1) * limit;
 
   const { rows } = await db.query(
     `
@@ -61,8 +63,11 @@ const getUserJobsByUserAndType = async (body) => {
       WHERE user_id = $1 AND type = $2
     )
     GROUP BY jobs.id
+    ORDER BY jobs.created_at DESC
+    LIMIT $3
+    OFFSET $4
     `,
-    [user_id, type]
+    [user_id, type, limit, offset]
   );
 
   return rows;
