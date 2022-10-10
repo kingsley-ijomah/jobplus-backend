@@ -44,10 +44,21 @@ const editSector = async (req, res) => {
   }
 }
 
+// get sectors categories
+const getSectorsCategories = async (req, res) => {
+  try {
+    const sectors = await sectorServices.getSectorsCategories();
+    return res.status(200).json({ sectors });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 // export module
 module.exports = {
   createSector,
   getAllSectors,
   deleteSector,
   editSector,
+  getSectorsCategories
 };

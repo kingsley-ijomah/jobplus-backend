@@ -49,6 +49,32 @@ const editSector = async (id, body) => {
   return record[0];
 };
 
+// get sectors categories
+const getSectorsCategories = async () => {
+  const { rows } = await db.query(
+    `
+    SELECT
+      s.id,
+      s.name,
+      s.image,
+      json_agg(
+        json_build_object(
+          'id', c.id,
+          'name', c.name,
+          'job_count', (
+            SELECT COUNT(*) FROM "jobs" j WHERE j.category_id = c.id
+          )
+        )
+      ) AS categories
+    FROM sectors s
+    LEFT JOIN categories c ON s.id = c.sector_id
+    GROUP BY s.id
+    `
+  );
+
+  return rows;
+};
+
 
 
 // export module
@@ -57,4 +83,5 @@ module.exports = {
   getAllSectors,
   deleteSector,
   editSector,
+  getSectorsCategories,
 };
