@@ -1,4 +1,5 @@
 const db = require('../config/database');
+const notificationServices = require('./notification.services');
 
 // create a new job
 const createJob = async (body) => {
@@ -8,6 +9,9 @@ const createJob = async (body) => {
     'INSERT INTO jobs (title, salary_type, salary, job_types, description, company_id, sector_id, category_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
     [title, salary_type, salary, job_types, description, company_id, sector_id, category_id],
   );
+
+  // send notification to all matching profiles
+  await notificationServices.sendNotification(rows[0]);
 
   return rows[0];
 }
