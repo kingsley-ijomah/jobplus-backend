@@ -40,10 +40,22 @@ const deleteJob = async (req, res) => {
   }
 }
 
+// search jobs
+const searchJobs = async (req, res) => {
+  const body = {...req.body, ...req.query, user_id: req.user.id};
+  try {
+    const jobs = await jobServices.searchJobs(body);
+    res.status(200).json(jobs);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // export all functions
 module.exports = {
   createJob,
   getAllJobs,
   updateJob,
   deleteJob,
+  searchJobs,
 };

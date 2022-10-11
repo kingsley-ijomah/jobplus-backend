@@ -83,10 +83,10 @@ const searchJobs = async (params) => {
     )
     GROUP BY jobs.id
     ORDER BY jobs.created_at DESC
-    LIMIT $3
-    OFFSET $4
+    LIMIT $2
+    OFFSET $3
     `,
-    [user_id, limit, offset, what, where]
+    [user_id, limit, offset, `%${what}%`, `%${where}%`]
   );
 
   return rows;
@@ -98,4 +98,5 @@ module.exports = {
   getAllJobs,
   updateJob,
   deleteJob,
+  searchJobs,
 };
